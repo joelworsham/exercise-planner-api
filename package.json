@@ -1,0 +1,65 @@
+{
+  "name": "exercise-planner-api",
+  "version": "0.0.1",
+  "description": "Centralized API for the Exercise Planner platform. Utilizing Postgres, Express, GraphQL, Sequelize, and Passport Authentication.",
+  "main": "index.js",
+  "authors": [
+    "Joel Worsham <joelworsham@gmail.com>"
+  ],
+  "scripts": {
+    "dev": "env-cmd nodemon ./server",
+    "start": "node ./server",
+    "system-check": "NO_REQUIRE_CONFIG=true node ./scripts/systemCheck",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint --fix .",
+    "postgres:init": "node ./scripts/postgres",
+    "postgres:drop-db": "node -e 'require(\"./scripts/postgres/drop-db\")()'",
+    "postgres:create-db": "node -e 'require(\"./scripts/postgres/create-db\")()'",
+    "postgres:migrate": "node -e 'require(\"./scripts/postgres/migrate\")()'",
+    "postgres:seed": "node -e 'require(\"./scripts/postgres/seed\")()'",
+    "dev:postgres:init": "env-cmd node ./scripts/postgres",
+    "dev:postgres:drop-db": "env-cmd yarn run postgres:drop-db",
+    "dev:postgres:create-db": "env-cmd yarn run postgres:create-db",
+    "dev:postgres:migrate": "env-cmd yarn run postgres:migrate",
+    "dev:postgres:seed": "env-cmd yarn run postgres:seed",
+    "test": "yarn run test:unit",
+    "test:unit": "yarn run jest",
+    "stg:reset-db": "heroku pg:reset -a exercise-planner-api-stg postgresql-regular-85371 && npm run stg:rebuild-db",
+    "stg:rebuild-db": "heroku run -a exercise-planner-api-stg \"npm run postgres:init\"",
+    "prod:reset-db": "heroku pg:reset -a exercise-planner-api-prod postgresql-deep-01772 && npm run prod:rebuild-db",
+    "prod:rebuild-db": "heroku run -a exercise-planner-api-prod \"npm run postgres:init\""
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "chalk": "^4.0.0",
+    "connect-pg-simple": "^6.1.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "express-session": "^1.17.0",
+    "faker": "^4.1.0",
+    "graphql": "^15.0.0",
+    "graphql-passport": "^0.6.3",
+    "moment": "^2.24.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pg": "^8.0.3",
+    "sequelize": "^5.21.6",
+    "sequelize-cli": "^5.5.1",
+    "umzug": "^2.3.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "14.1.0",
+    "eslint-plugin-import": "2.20.1",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.3"
+  },
+  "engines": {
+    "node": "14.7.x"
+  }
+}

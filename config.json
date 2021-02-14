@@ -1,0 +1,44 @@
+{
+  "debug": {
+    "type": "String",
+    "default": "",
+    "env": "DEBUG",
+    "description": "Determines which modules should log debug information."
+  },
+  "environment": {
+    "type": "String",
+    "default": "development",
+    "env": "NODE_ENV",
+    "description": "Sets the current Node environment."
+  },
+  "enableGaphiQL": {
+    "type": "Boolean",
+    "default": false,
+    "env": "ENABLE_GRAPH_IQL",
+    "description": "Enables the use of GraphIQL (browser query tool)."
+  },
+  "cookieSecret": {
+    "type": "String",
+    "required": true,
+    "env": "COOKIE_SECRET",
+    "description": "Secret value used in session cookies for user authentication."
+  },
+  "port": {
+    "type": "Number",
+    "default": 5000,
+    "env": "PORT",
+    "description": "Port on which this API should run the server."
+  },
+  "host": {
+    "type": "String",
+    "default": "localhost",
+    "env": "HOST",
+    "description": "Host on which this API should run the server."
+  },
+  "databaseUrl": {
+    "type": "String",
+    "required": true,
+    "env": "DATABASE_URL",
+    "description": "Host on which this API should run the server."
+  }
+}

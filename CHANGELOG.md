@@ -1,0 +1,35 @@
+## 0.1.0 - XXXX-XX-XX
+
+### Added
+- `User` Model, with all relevant migrations/seeders/fixtures
+- `Role` Model, with all relevant migrations/seeders/fixtures
+- `UserRole` Model, with all relevant migrations/seeders/fixtures
+- `config` library used for getting and using application configuration
+- `log` library used for displaying helpful logs to the server console
+- `prompt` library used for prompting the user for input during a node script
+- `migration` library used for mapping Models to migrations
+- `seeder` library used for mapping fixture data to seeders
+- `db:drop-db` script which drops the `ep` database
+- `db:create-db` script which creates the `ep` database
+- `db:migrate` script which runs all database migrations
+- `db:seed` script which runs all database seeders
+- Server infrastructure
+    - Routing system
+    - Middleware system
+    - GraphQL system
+- `POST: /grkaphql` route, used for all GraphQL queries
+- `express.bodyParser.json` middleware which pareses request body into valid JSON
+- `express.session` middleware which adds Express session middleware, for auth'd users
+- `express.static` middleware which is used for displaying static assets (media)
+- `passport.initialize` middleware which initializes Passport authentication
+- `passport.session` middleware which adds Passport authentication sessions
+- `user` GraphQL query used for querying a single user
+- `users` GraphQL query used for querying multiple/all users
+- `user` GraphQL type used for interacting with users
+- `db` utils: `getDbUrlParts`, `getDefaultModelAttributes`, `getDefaultModelOptions`, `getTablePropertiesFromModel`
+- `fixture` utils: `generateUsers`, `prepareFixtureForSeeder`
+- `router` utils: `generateUsers`, `prepareFixtureForSeeder`
+- Added dependencies: `body-parser`, `chalk`, `express`, `express-graphql`, `express-session`, `faker`, `graphql`, `moment`, `passport`, `passport-local`, `pg`, `sequelize`, `sequelize-cli`, `umzug`, `validate`
+- Added devDependencies: `dotenv`, `env-cmd`, `eslint`, `eslint-plugin-import`, `nodemon`
+- Added `package.json` scripts: `dev`, `start`, `db`, `db:drop-db`, `db:create-db`, `db:migrate`, `db:seed`, `dev:db`, `dev:db:drop-db`, `dev:db:create-db`, `dev:db:migrate`, `dev:db:seed`
+- Added `.env.example` with vars: `DEBUG`, `NODE_ENV`, `ENABLE_GRAPH_IQL`, `COOKIE_SECRET`, `DATABASE_URL`
