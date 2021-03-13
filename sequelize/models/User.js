@@ -9,8 +9,6 @@ const {
   NAME_FIELD_MAX_LEN,
 } = require('../../data/rules/text');
 const {
-  DATE_OF_BIRTH_AFTER,
-  DATE_OF_BIRTH_BEFORE,
   EMAIL_FIELD_MIN_LEN,
   EMAIL_FIELD_MAX_LEN,
   PASSWORD_FIELD_MIN_LEN,
@@ -85,20 +83,6 @@ const UserModel = initializeModel(
         isIn: {
           args: USER_STATUSES,
           msg: `Invalid "status" type. Must be one of: [${USER_STATUSES.join(', ')}]`,
-        },
-      },
-    },
-    dateOfBirth: {
-      type: Sequelize.DATE,
-      allowNull: false,
-      validate: {
-        isAfter: {
-          args: DATE_OF_BIRTH_AFTER,
-          msg: `User birth date must be after ${DATE_OF_BIRTH_AFTER}`,
-        },
-        isBefore: {
-          args: DATE_OF_BIRTH_BEFORE,
-          msg: `User birth date must be before ${DATE_OF_BIRTH_BEFORE}`,
         },
       },
     },

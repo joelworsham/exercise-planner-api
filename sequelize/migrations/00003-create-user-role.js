@@ -3,7 +3,7 @@ const log = require('../../lib/log');
 
 module.exports = {
   up: async (queryInterface) => {
-    log.inform('00003 Migrating UP User Role...', 'migration');
+    log.inform('Migrating UP User Role...', 'migration');
 
     return queryInterface.createTable('UserRoles', {
       id: {
@@ -43,7 +43,7 @@ module.exports = {
     });
   },
   down: async (queryInterface) => {
-    log.inform('00003 Migrating DOWN User Role...', 'migration');
+    log.inform('Migrating DOWN User Role...', 'migration');
 
     return queryInterface.dropTable('UserRoles');
   },

@@ -60,6 +60,6 @@
     "nodemon": "^2.0.3"
   },
   "engines": {
-    "node": "14.7.x"
+    "node": "14.x"
   }
 }

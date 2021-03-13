@@ -6,7 +6,7 @@ const decorateContextWithAuth = require('../../util/passport/decorateContextWith
 module.exports = {
   name: 'graphql',
   path: '/graphql',
-  method: 'post',
+  method: 'use', // "use" tells express to call app.use(), as this will produce multiple routes (get/post)
   handler: (req, res) => (
     graphqlHTTP({
       schema,
