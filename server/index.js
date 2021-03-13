@@ -5,10 +5,11 @@ const log = require('../lib/log');
 const config = require('../lib/config');
 
 const {
-  express_static,
-  express_cookieParser,
   express_bodyParser_json,
+  express_cookieParser,
+  express_cors,
   express_session,
+  express_static,
   passport_initialize,
   passport_session,
 } = require('./middlewares');
@@ -20,12 +21,16 @@ const {
 // Init server
 const app = express();
 
+// Add CORS preflight
+app.options('*', express_cors.middleware());
+
 // Middlewares
 applyMiddlewares(app, [
-  express_static,
-  express_cookieParser,
   express_bodyParser_json,
+  express_cookieParser,
+  express_cors,
   express_session,
+  express_static,
   passport_initialize,
   passport_session,
 ]);

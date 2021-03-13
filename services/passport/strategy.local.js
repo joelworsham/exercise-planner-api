@@ -15,7 +15,9 @@ module.exports = new GraphQLLocalStrategy(
     }
 
     // Password does not match
-    if (user && !(await user.isValidPassword(password))) {
+    try {
+      await user.isValidPassword(password);
+    } catch (e) {
       error = new Error('Password is incorrect.');
     }
 

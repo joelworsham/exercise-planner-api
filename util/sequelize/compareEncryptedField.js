@@ -12,7 +12,7 @@ const log = require('../../lib/log');
  */
 module.exports = async (value, encrypted) => (
   new Promise((resolve, reject) => (
-    compare(value, encrypted, (error) => {
+    compare(value, encrypted, (error, matched) => {
       if (error) {
         log.error(
           'Error in comparing encrypted value.',
@@ -20,9 +20,12 @@ module.exports = async (value, encrypted) => (
           error,
           { json: { value, encrypted } },
         );
-        reject(error);
-      } else {
+      }
+
+      if (matched) {
         resolve(true);
+      } else {
+        reject(error);
       }
     })
   ))

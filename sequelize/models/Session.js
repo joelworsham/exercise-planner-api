@@ -8,18 +8,18 @@ const {
 } = require('../../data/rules/text');
 
 /**
- * Tag model.
+ * Session model.
  *
- * Tag used to organize data sets.
+ * Represents a single activity in the system.
  *
  * @docs https://sequelize.org/v5/manual/getting-started.html#modeling-a-table
  * @docs https://sequelize.org/v5/manual/models-definition.html
  * @type {Model}
  */
-class Tag extends Model {
+class Session extends Model {
 }
 
-const TagModel = initializeModel(
+const SessionModel = initializeModel(
   {
     ...getDefaultModelAttributes(),
     name: {
@@ -28,18 +28,28 @@ const TagModel = initializeModel(
       validate: {
         len: {
           args: [NAME_FIELD_MIN_LEN, NAME_FIELD_MAX_LEN],
-          msg: `Tag name must be between ${NAME_FIELD_MIN_LEN} and ${NAME_FIELD_MAX_LEN} characters in length.`,
+          msg: `Session name must be between ${NAME_FIELD_MIN_LEN} and ${NAME_FIELD_MAX_LEN} characters in length.`,
         },
       },
+    },
+    order: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+      validate: {
+        min: {
+          args: [0],
+          msg: 'Session order must be greater than 0.',
+        },
+      }
     },
   },
   {
     ...getDefaultModelOptions(),
   },
   {
-    description: 'Tag used to organize data sets.',
+    description: 'A single session containing activities.',
     paginate: true,
   },
-)(Tag);
+)(Session);
 
-module.exports = TagModel;
+module.exports = SessionModel;

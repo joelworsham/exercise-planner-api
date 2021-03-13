@@ -17,10 +17,7 @@ class ActivityTag extends Model {
 
 module.exports = initializeModel(
   getDefaultModelAttributes(),
-  {
-    ...getDefaultModelOptions(),
-    tableName: 'ActivityTags',
-  },
+  getDefaultModelOptions(),
   {
     description: 'Provides the "belongsToMany" association between an activity and a tag.',
   },
