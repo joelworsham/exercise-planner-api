@@ -3,7 +3,7 @@ const log = require('../../lib/log');
 /**
  * Updates an item in the database via a Sequelize Model.
  *
- * @param {Object} state The new state to merge into the item.
+ * @param {Object} state The state to search by
  * @param {{}} Model The Sequelize Model to perform on.
  * @param {Object} config
  * @param {Object} config.retrieveArgs
@@ -20,22 +20,26 @@ module.exports = async (
 ) => {
   try {
     log.debug(
-      `Updating ${Model.name} with id "${state.id}"...`,
+      `Getting ${Model.name} with state:...`,
       'sequelize',
       { json: state },
     );
 
-    await Model.update(state, { where: { id: state.id } });
+    const result = await Model.scope(retrieveArgs.scope || 'defaultScope').findOne(
+      { where: state },
+      retrieveArgs,
+    );
 
-    log.debug(`${Model.name} updated!`, 'sequelize');
+    log.debug(
+      `${Model.name} retrieved!`,
+      'sequelize',
+      { json: result },
+    );
 
-    // Potentially return with scope
-    return retrieveArgs.scope
-      ? await Model.scope(retrieveArgs.scope).findByPk(state.id, retrieveArgs)
-      : await Model.findByPk(state.id, retrieveArgs);
+    return result;
   } catch (error) {
     log.error(
-      `Error updating ${Model.name}.`,
+      `Error getting ${Model.name}.`,
       'sequelize',
       error,
       { shouldThrow },

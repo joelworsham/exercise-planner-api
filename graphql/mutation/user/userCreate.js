@@ -8,7 +8,7 @@ module.exports = {
   type: UserType,
   args: {
     user: {
-      type: GraphQLNonNull(UserInput('CreateUserInput')),
+      type: GraphQLNonNull(UserInput('userCreateInput')),
     },
   },
   resolve: createResolver(User),

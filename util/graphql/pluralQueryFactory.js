@@ -1,4 +1,5 @@
-const paginate = require('../../graphql/resolvers/paginateResolverFactory');
+const paginateResolver = require('../../graphql/resolvers/paginateResolverFactory');
+const pluralResolver = require('../../graphql/resolvers/pluralResolverFactory');
 const pluralQueryTypeFactory = require('./pluralQueryTypeFactory');
 const decorateArgsWithPagination = require('./decorateArgsWithPagination');
 
@@ -29,10 +30,12 @@ module.exports = (
     name = undefined,
     paginationDirection = undefined,
     whereArg = undefined,
+    findOptions = () => null,
     nodeFields = {},
     findMethod = undefined,
     noneFoundMessage = undefined,
     isConnection = false,
+    resolver = undefined,
   } = {},
 ) => (
   {
@@ -54,14 +57,27 @@ module.exports = (
         }
         : {},
     ),
-    resolve: paginate(
-      Model,
-      {
-        paginationDirection,
-        whereArg,
-        noneFoundMessage,
-        findMethod,
-      },
-    ),
+    resolve: async (...resolverArgs) => {
+      if (resolver) return resolver(...resolverArgs);
+      if (Model.hasPagination) {
+        return paginateResolver(
+          Model,
+          {
+            findOptions,
+            paginationDirection,
+            whereArg,
+            noneFoundMessage,
+            findMethod,
+          },
+        )(...resolverArgs);
+      }
+      return pluralResolver(
+        Model,
+        {
+          whereArg,
+          findOptions,
+        },
+      )(...resolverArgs);
+    },
   }
 );

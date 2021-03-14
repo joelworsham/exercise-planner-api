@@ -1,8 +1,9 @@
-const Activity = require('./Activity');
-const ActivityTag = require('./ActivityTag');
+const Exercise = require('./Exercise');
+const ExerciseTag = require('./ExerciseTag');
 const Role = require('./Role');
 const Session = require('./Session');
 const SessionActivity = require('./SessionActivity');
+const SessionActivityExercise = require('./SessionActivityExercise');
 const Tag = require('./Tag');
 const User = require('./User');
 const UserRole = require('./UserRole');
@@ -10,23 +11,30 @@ const UserRole = require('./UserRole');
 // ESTABLISH ALL MODEL RELATIONSHIPS
 // @see https://sequelize.org/master/class/lib/associations/base.js~Association.html
 
-// ACTIVITY
+// EXERCISE
 
-// Activity <-->> ActivityTag <<--> Tag
-Activity.belongsToMany(Tag, { through: ActivityTag, foreignKey: 'activityId' });
-Tag.belongsToMany(Activity, { through: ActivityTag, foreignKey: 'tagId' });
+// Exercise <-->> ExerciseTag <<--> Tag
+Exercise.belongsToMany(Tag, { through: ExerciseTag, foreignKey: 'exerciseId' });
+Tag.belongsToMany(Exercise, { through: ExerciseTag, foreignKey: 'tagId' });
 
 // SESSION
 
-// Session <-->> SessionActivity <<--> Activity
-Session.belongsToMany(Activity, {
+// Session <-->> SessionActivity
+Session.hasMany(SessionActivity, {
   as: 'Activities',
   foreignKey: 'sessionId',
-  through: SessionActivity,
 });
-Activity.belongsToMany(Session, {
-  foreignKey: 'activityId',
-  through: SessionActivity,
+SessionActivity.belongsTo(Session, {
+  foreignKey: 'sessionId',
+});
+
+// SessionActivity <-->> SessionActivityExercise
+SessionActivity.hasMany(SessionActivityExercise, {
+  as: 'Exercises',
+  foreignKey: 'sessionActivityId',
+});
+SessionActivityExercise.belongsTo(SessionActivity, {
+  foreignKey: 'sessionActivityId',
 });
 
 // USER
@@ -36,11 +44,12 @@ User.belongsToMany(Role, { through: UserRole, foreignKey: 'userId' });
 Role.belongsToMany(User, { through: UserRole, foreignKey: 'roleId' });
 
 module.exports = {
-  Activity,
-  ActivityTag,
+  Exercise,
+  ExerciseTag,
   Role,
   Session,
   SessionActivity,
+  SessionActivityExercise,
   Tag,
   User,
   UserRole,

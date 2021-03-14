@@ -6,6 +6,7 @@ const {
   GraphQLBoolean,
   GraphQLEnumType,
 } = require('graphql');
+const { GraphQLJSON } = require('graphql-type-json');
 const { GraphQLDate } = require('../../graphql/scalars');
 
 let counter = 0;
@@ -41,13 +42,11 @@ module.exports = (name, attribute) => {
   if (attribute.type instanceof Sequelize.FLOAT) return GraphQLFloat;
   if (attribute.type instanceof Sequelize.STRING) return GraphQLString;
   if (attribute.type instanceof Sequelize.BOOLEAN) return GraphQLBoolean;
+  if (attribute.type instanceof Sequelize.UUID) return GraphQLString;
   if (attribute.type instanceof Sequelize.DATE) return GraphQLDate;
-
-  // TODO figure out how these Sequelize types relate to GraphQL types
-  // if (Type instanceof Sequelize.VARIABLE) return ???;
-  // if (Type instanceof Sequelize.NULL) return ???;
-  // if (Type instanceof Sequelize.LIST) return ???;
-  // if (Type instanceof Sequelize.OBJECT_FIELD) return ???;
+  if (attribute.type instanceof Sequelize.DATEONLY) return GraphQLString;
+  if (attribute.type instanceof Sequelize.JSONB) return GraphQLJSON;
+  if (attribute.type instanceof Sequelize.ENUM) return GraphQLString;
 
   return undefined;
 };

@@ -1,22 +1,18 @@
-const handleUnauthed = require('../../util/graphql/handleUnauthed');
-
 /**
  * Produces a paginated resolver.
  *
  * @param {Model} Model Sequelize Model to create for
- * @param {Object} options? Configurable options
- * @param {String} options.paginationDirection Direction of pagination [forwards or backwards]
- * @param {Boolean} options.auth If false, bypasses auth.
+ * @param {Object} options Configurable options
  * @param {String} options.whereArg Key of the "where" arg from the query args.
  * @param {Function} options.findMethod Method used to find results on the model.
+ * @param {Function} options.findOptions Extra query args to pass to model find method.
  */
 module.exports = (
   Model,
   {
-    paginationDirection = 'forwards',
     whereArg = undefined,
     findMethod = undefined,
-    auth = true,
+    findOptions: extraQueryArgs = () => null,
   } = {},
 ) => (
   /**
@@ -29,26 +25,57 @@ module.exports = (
    * @returns {Promise<{cursors: *, results: *}>}
    */
   async (_root, args, context, info) => {
-    if (auth && !context.isAuthenticated()) return handleUnauthed();
-
     const {
-      first = 10,
-      last = 10,
+      first,
+      last,
       after,
       before,
+      order,
+      orderBy,
+      search,
+      ...remainingWhere
     } = args;
 
+    const extraArgs = extraQueryArgs(args);
+
     const queryArgs = {
-      where: args[whereArg || Model.name.toLowerCase()],
+      ...(extraArgs || {}),
+      order,
+      orderBy,
+      search,
     };
 
+    if (args[whereArg || Model.name.toLowerCase()]) {
+      queryArgs.where = args[whereArg || Model.name.toLowerCase()];
+    } else {
+      // Only add where args that exist directly on the model. Assume all else is handled custom
+      // in the findMethod()
+      // eslint-disable-next-line no-restricted-syntax
+      for (const whereProp in remainingWhere) {
+        if (whereProp in Model.rawAttributes) {
+          if (!queryArgs.where) queryArgs.where = {};
+          queryArgs.where[whereProp] = remainingWhere[whereProp];
+        }
+      }
+
+      // If "where" is customized in "extraArgs", merge in
+      if (extraArgs && extraArgs.where) {
+        queryArgs.where = {
+          ...queryArgs.where,
+          ...extraArgs.where,
+        };
+      }
+    }
+
     // Add forwards OR backwards pagination args
-    if (paginationDirection === 'forwards') {
+    if (after) {
       queryArgs.limit = first;
       queryArgs.after = after;
-    } else if (last > 0) {
+    } else if (before) {
       queryArgs.limit = last;
       queryArgs.before = before;
+    } else {
+      queryArgs.limit = first || last || queryArgs.limit || 10;
     }
 
     const { results, cursors } = await Model.paginate(queryArgs, {

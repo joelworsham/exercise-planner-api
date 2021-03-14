@@ -4,21 +4,21 @@ const getDefaultModelAttributes = require('../../util/sequelize/getDefaultModelA
 const initializeModel = require('../../util/sequelize/initializeModel');
 
 /**
- * ActivityTag model.
+ * ExerciseTag model.
  *
- * Provides the "belongsToMany" association between an activity and a tag.
+ * Provides the "belongsToMany" association between an exercise and a tag.
  *
  * @docs https://sequelize.org/v5/manual/getting-started.html#modeling-a-table
  * @docs https://sequelize.org/v5/manual/models-definition.html
  * @type {Model}
  */
-class ActivityTag extends Model {
+class ExerciseTag extends Model {
 }
 
 module.exports = initializeModel(
   getDefaultModelAttributes(),
   getDefaultModelOptions(),
   {
-    description: 'Provides the "belongsToMany" association between an activity and a tag.',
+    description: 'Provides the "belongsToMany" association between an exercise and a tag.',
   },
-)(ActivityTag);
+)(ExerciseTag);

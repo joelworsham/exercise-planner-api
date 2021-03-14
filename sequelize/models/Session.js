@@ -10,7 +10,7 @@ const {
 /**
  * Session model.
  *
- * Represents a single activity in the system.
+ * Represents a single exercise in the system.
  *
  * @docs https://sequelize.org/v5/manual/getting-started.html#modeling-a-table
  * @docs https://sequelize.org/v5/manual/models-definition.html
@@ -40,7 +40,7 @@ const SessionModel = initializeModel(
           args: [0],
           msg: 'Session order must be greater than 0.',
         },
-      }
+      },
     },
   },
   {

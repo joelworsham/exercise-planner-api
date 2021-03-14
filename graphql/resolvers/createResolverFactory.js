@@ -1,4 +1,3 @@
-const handleUnauthed = require('../../util/graphql/handleUnauthed');
 const modelCreateItem = require('../../util/sequelize/modelCreateItem');
 
 /**
@@ -6,25 +5,26 @@ const modelCreateItem = require('../../util/sequelize/modelCreateItem');
  *
  * @param {{}} Model Sequelize Model to perform on.
  * @param {Object} config
- * @param {Boolean} config.auth If false, bypasses auth.
+ * @param {Object} config.retrieveArgs
  * @returns {function(*, *): Promise<*|undefined>}
  */
 module.exports = (
   Model,
   {
-    auth = true,
+    retrieveArgs = {},
   } = {},
 ) => (
   /**
    * Resolver for creating a Sequelize Model to the database.
    * @param _
    * @param args
-   * @param context
    * @returns {Promise<*|undefined>}
    */
-  async (_, args, context) => {
-    if (auth && !context.isAuthenticated()) return handleUnauthed();
-
-    return modelCreateItem(args[Model.name.toLowerCase()], Model);
-  }
+  async (_, args) => (
+    modelCreateItem(
+      args[`${Model.name.charAt(0).toLowerCase()}${Model.name.substr(1)}`],
+      Model,
+      { retrieveArgs, shouldThrow: true },
+    )
+  )
 );

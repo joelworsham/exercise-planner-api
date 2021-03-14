@@ -5,23 +5,26 @@ const log = require('../../lib/log');
  *
  * @param {String|Number} id The database ID of the item to delete.
  * @param {{}} Model The Sequelize Model to perform on.
- * @returns {Promise<{}|null>}
+ * @param {Object} config
+ * @param {Boolean} config.shouldThrow
+ * @returns {Promise<*>}
  */
-module.exports = async (id, Model) => {
+module.exports = async (id, Model, { shouldThrow = true } = {}) => {
   try {
     log.debug(
       `Deleting ${Model.name} with id "${id}"...`,
-      'graphql',
+      'sequelize',
     );
 
-    log.debug(`${Model.name} deleted!`, 'graphql');
-    return await (await Model.findByPk(id)).destroy();
+    await (await Model.findByPk(id)).destroy();
+    log.debug(`${Model.name} deleted!`, 'sequelize');
+    return id;
   } catch (error) {
     log.error(
       `Error deleting ${Model.name}.`,
-      'graphql',
+      'sequelize',
       error,
-      { shouldThrow: true }, // Alert GraphQL response of error
+      { shouldThrow },
     );
   }
 

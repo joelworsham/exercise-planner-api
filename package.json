@@ -43,6 +43,7 @@
     "faker": "^4.1.0",
     "graphql": "^15.0.0",
     "graphql-passport": "^0.6.3",
+    "graphql-type-json": "^0.3.2",
     "moment": "^2.24.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",

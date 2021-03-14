@@ -8,7 +8,7 @@ const withPagination = require('../../lib/sequelizeCursorPagination');
  * @param {Object} attributes Model attributes.
  * @param {Object} options Model options.
  * @param {String} description Model description.
- * @param {Object} paginate (Optional) Add cursor pagination.
+ * @param {Boolean} paginate (Optional) Add cursor pagination.
  * @returns {*}
  */
 module.exports = (
@@ -16,7 +16,7 @@ module.exports = (
   options,
   {
     description,
-    paginate = undefined,
+    paginate = false,
   },
 ) => (
   /**
@@ -25,13 +25,13 @@ module.exports = (
    * @param {{}} Model Sequelize Model to initiailize.
    * @returns {*}
    */
-  (Model) => {
+    (Model) => {
     Model.init(attributes, options);
 
     if (description) Model.description = description;
 
     if (paginate) {
-      return withPagination(paginate)(Model);
+      return withPagination(Model);
     }
     return Model;
   }

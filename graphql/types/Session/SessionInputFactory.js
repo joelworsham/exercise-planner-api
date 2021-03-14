@@ -1,5 +1,5 @@
 const { GraphQLInputObjectType } = require('graphql');
-const { User } = require('../../../sequelize/models');
+const { Session } = require('../../../sequelize/models');
 const createTypeFromDbModel = require('../../../util/graphql/createTypeFromDbModel');
 
 module.exports = (
@@ -18,5 +18,5 @@ module.exports = (
       name,
       require,
     },
-  )(User)
+  )(Session)
 );

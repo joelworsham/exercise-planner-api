@@ -7,7 +7,7 @@ const { SESSION_ACTIVITY_TYPES } = require('../../data/rules/session');
 /**
  * SessionActivity model.
  *
- * Represents a single exercise in the system.
+ * Represents a session exercise exercise in the system.
  *
  * @docs https://sequelize.org/v5/manual/getting-started.html#modeling-a-table
  * @docs https://sequelize.org/v5/manual/models-definition.html
@@ -38,8 +38,7 @@ const SessionActivityModel = initializeModel(
     ...getDefaultModelOptions(),
   },
   {
-    description: 'An exercise performed within a session.',
-    paginate: true,
+    description: 'An exercise performed within a session exercise.',
   },
 )(SessionActivity);
 
